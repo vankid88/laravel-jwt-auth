@@ -34,10 +34,12 @@ Route::group([
     'middleware' => 'auth:api',
 ], function ($router) {
     Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/product/create', [ProductController::class, 'store']);
+    Route::post('/products/create', [ProductController::class, 'store']);
     Route::get('/products/{id}/show', [ProductController::class, 'show']);
     Route::post('/products/{id}/update', [ProductController::class, 'update']);
 
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::post('/category/create', [CategoryController::class, 'store']);
+    Route::post('/categories/create', [CategoryController::class, 'store']);
+    Route::get('/categories/{id}/show', [CategoryController::class, 'show']);
+    Route::post('/categories/{id}/update', [CategoryController::class, 'update']);
 });

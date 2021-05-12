@@ -100,13 +100,24 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     protected function createNewToken($token) {
-        return response()->json([
-            'status' => true,
+        $data = [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
+            'expired_at' => time() + auth()->factory()->getTTL() * 60,
             'user' => auth()->user(),
-            'message' => 'Created new token successfully'
-        ]);
+        ];
+
+        return $this->successResponse($data, 'Created new token successfully');
+
+        // return response()->json([
+        //     'status' => true,
+        //     'access_token' => $token,
+        //     'token_type' => 'bearer',
+        //     'expires_in' => auth()->factory()->getTTL() * 60,
+        //     'expired_at' => time() + auth()->factory()->getTTL() * 60,
+        //     'user' => auth()->user(),
+        //     'message' => 'Created new token successfully'
+        // ]);
     }
 }

@@ -40,7 +40,7 @@ class ProductController extends Controller
         ]);
 
         if($validator->fails()){
-            return $this->errorResponse($validator->errors()->toJson(), 400);
+            return $this->errorResponse($validator->errors()->toJson());
         }
 
         $product = new Product([
@@ -62,7 +62,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::find($id);
+
+        if (!$product) {
+            return $this->errorResponse('Product was not found');
+        }
         return $this->successResponse($product, 'Get product detail successfully');
     }
 
@@ -78,7 +82,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         if (!$product) {
-            return $this->errorResponse('Product was not found', 400);
+            return $this->errorResponse('Product was not found');
         }
 
         $inputs = $request->all();
@@ -90,7 +94,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()){
-            return $this->errorResponse($validator->errors()->toJson(), 400);
+            return $this->errorResponse($validator->errors()->toJson());
         }
 
         $product->name = $inputs['name'];

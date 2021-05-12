@@ -53,9 +53,14 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category = Category::find($id);
+        if (!$category) {
+            return $this->errorResponse("Category was not found", 400);
+        }
+
+        return $this->successResponse($category, "Get category successfully");
     }
 
     /**
@@ -65,9 +70,31 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        if (!$category) {
+            return $this->errorResponse("Category was not found", 400);
+        }
+
+        $inputs = $request->all();
+
+        $validator = Validator::make($inputs, [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()){
+            return $this->errorResponse($validator->errors()->toJson(), 400);
+        }
+
+        $category->name = $inputs['name'];
+        $category->desc = $inputs['desc'];
+
+        $category->save();
+
+        return $this->successResponse($category, 'Category has been updated successfully');
+
     }
 
     /**
