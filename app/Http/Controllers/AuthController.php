@@ -19,6 +19,16 @@ class AuthController extends Controller
     }
 
     /**
+     * Get user list
+     */
+    public function index(Request $request){
+    	
+        $users = User::all();
+
+        return $this->successResponse($users, 'Get user list successfully');
+    }
+
+    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse

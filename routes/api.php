@@ -33,6 +33,8 @@ Route::group([
 Route::group([
     'middleware' => 'auth:api',
 ], function ($router) {
+    Route::get('/users', [AuthController::class, 'index']);
+
     Route::get('/products', [ProductController::class, 'index']);
     Route::post('/products/create', [ProductController::class, 'store']);
     Route::get('/products/{id}/show', [ProductController::class, 'show']);
