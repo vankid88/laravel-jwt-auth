@@ -103,8 +103,16 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+
+        if (!$category) {
+            return $this->errorResponse("Category was not found", 400);
+        }
+
+        $category->delete();
+
+        return $this->successResponse($category, 'Category has been deleted successfully');
     }
 }

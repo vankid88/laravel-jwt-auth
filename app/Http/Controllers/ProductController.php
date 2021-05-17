@@ -112,8 +112,16 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        if (!$product) {
+            return $this->errorResponse('Product was not found');
+        }
+
+        $product->delete();
+
+        return $this->successResponse($product, 'Product has been deleted successfully');
     }
 }

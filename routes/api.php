@@ -39,9 +39,11 @@ Route::group([
     Route::post('/products/create', [ProductController::class, 'store']);
     Route::get('/products/{id}/show', [ProductController::class, 'show']);
     Route::post('/products/{id}/update', [ProductController::class, 'update']);
+    Route::post('/products/{id}/delete', [ProductController::class, 'destroy']);
 
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories/create', [CategoryController::class, 'store']);
     Route::get('/categories/{id}/show', [CategoryController::class, 'show']);
     Route::post('/categories/{id}/update', [CategoryController::class, 'update']);
+    Route::post('/categories/{id}/delete', [CategoryController::class, 'destroy']);
 });
