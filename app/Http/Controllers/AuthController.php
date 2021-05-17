@@ -44,7 +44,7 @@ class AuthController extends Controller
         }
 
         if (! $token = auth()->attempt($validator->validated())) {
-            return $this->errorResponse('Unauthorized', 401);
+            return $this->errorResponse('Unauthorized');
         }
 
         return $this->createNewToken($token);
