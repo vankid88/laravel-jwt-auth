@@ -26,7 +26,9 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/profile', [AuthController::class, 'userProfile']);    
+    Route::get('/profile', [AuthController::class, 'userProfile']);
+
+    Route::get('/products', [ProductController::class, 'index']);
 });
 
 
@@ -36,12 +38,14 @@ Route::group([
     Route::get('/users', [AuthController::class, 'index']);
 
     Route::get('/products', [ProductController::class, 'index']);
+    
     Route::post('/products/create', [ProductController::class, 'store']);
     Route::get('/products/{id}/show', [ProductController::class, 'show']);
     Route::post('/products/{id}/update', [ProductController::class, 'update']);
     Route::post('/products/{id}/delete', [ProductController::class, 'destroy']);
 
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/categories/getList', [CategoryController::class, 'getList']);
     Route::post('/categories/create', [CategoryController::class, 'store']);
     Route::get('/categories/{id}/show', [CategoryController::class, 'show']);
     Route::post('/categories/{id}/update', [CategoryController::class, 'update']);

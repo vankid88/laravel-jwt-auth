@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -17,6 +18,38 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         return $this->successResponse($categories, 'Get categories list successfully');
+    }
+
+    /**
+     * Get pagination categories list
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getList(Request $request) {
+        $query = DB::table('categories');
+
+        $page = $request->get('page') ? (int)$request->get('page') : 1;
+        $search = $request->get('search') ? strtolower($request->get('search')) : '';
+        $numPerPage = $request->get('page_size') ? (int) $request->get('page_size') : env('ITEMS_PER_PAGE');
+
+        $offset = ($page-1) * $numPerPage;
+        
+        if ($search) {
+            $query->whereRaw("LOWER(name) LIKE '%$search%'");
+        }
+
+        $total = $query->count();
+
+        $items = $query->offset($offset)->limit($numPerPage)->get();
+
+        $data = [
+            'items' => $items,
+            'total' => $total,
+            'page' => $page,
+        ];
+
+        return $this->successResponse($data, 'Get categories list successfully');
     }
 
     /**
